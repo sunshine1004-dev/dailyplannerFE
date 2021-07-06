@@ -1,21 +1,22 @@
-import { Flex, Input, Text } from "@chakra-ui/react";
+import { Flex, Text, Textarea } from "@chakra-ui/react";
 import Card from "../../components/Card/Card";
 import { useEditMode } from "../../contexts/EditModeContext";
 
-const GratefulForCard = (props) => {
+const ResearchCard = (props) => {
   const { editMode } = useEditMode();
 
   return (
-    <Card title="grateful for" flex={2} sectionName="GRATEFUL_FOR">
-      <Flex alignItems="center">
-        <Input
+    <Card title="research/inspiration" flex={2} sectionName="RESEARCH">
+      <Flex alignItems="center" justifyContent="center">
+        <Textarea
           variant="flushed"
           placeholder=""
           display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+          flex="1"
         />
         {!editMode && (
           <Text display={["inline-flex", "none"]} fontSize="xs">
-            Something
+            My research planning...
           </Text>
         )}
       </Flex>
@@ -23,6 +24,6 @@ const GratefulForCard = (props) => {
   );
 };
 
-GratefulForCard.propTypes = {};
+ResearchCard.propTypes = {};
 
-export default GratefulForCard;
+export default ResearchCard;

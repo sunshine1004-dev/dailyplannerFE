@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Input, Flex, Text, VStack } from "@chakra-ui/react";
 import TodosCard from "../../components/TodosCard/TodosCard";
 
 const WorkTodosCard = (props) => {

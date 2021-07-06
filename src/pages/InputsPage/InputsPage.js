@@ -8,34 +8,53 @@ import TomorrowsTodosCard from "./TomorrowsTodosCard";
 import WorkTodosCard from "./WorkTodosCard";
 import Popup from "./Popup";
 import ArtTodosCard from "./ArtTodosCard";
+import ReadingCard from "./ReadingCard";
+import ResearchCard from "./ResearchCard";
+import AccoutabilityCard from "./AccountabilityCard";
+import { EditModeProvider } from "../../contexts/EditModeContext";
+import Header from "../../components/Header/Header";
 
 const InputsPage = (props) => {
   return (
-    <Flex p="4" flexDirection="column">
-      <Flex mb="4">
-        <HeaderCard />
+    <EditModeProvider>
+      <Header />
+      <Flex p="4" flexDirection="column">
+        <Flex mb="4">
+          <HeaderCard />
+        </Flex>
+        <Flex my="4" justifyContent="space-between">
+          <AwakeCard />
+          <Box w={[0, 8]} />
+          <GratefulForCard />
+          <Box w={[0, 8]} />
+          <AsleepCard />
+        </Flex>
+        <Flex my="4" justifyContent="space-between">
+          <TodaysTodoCard />
+          <Box w={[0, 8]} />
+          <TomorrowsTodosCard />
+        </Flex>
+        <Flex my="4" justifyContent="space-between">
+          <WorkTodosCard />
+          <Box w={[0, 8]} />
+          <ArtTodosCard />
+        </Flex>
+        <Flex my="4" justifyContent="space-between">
+          <ReadingCard />
+          <Box w={[0, 8]} />
+          <ResearchCard />
+        </Flex>
+        <Flex mb="4">
+          <AccoutabilityCard />
+        </Flex>
+        <Flex mb="4" />
+        <Popup />
       </Flex>
-      <Flex my="4" justifyContent="space-between">
-        <AwakeCard />
-        <Box w={[0, 8]} />
-        <GratefulForCard />
-        <Box w={[0, 8]} />
-        <AsleepCard />
-      </Flex>
-      <Flex my="4" justifyContent="space-between">
-        <TodaysTodoCard />
-        <Box w={[0, 8]} />
-        <TomorrowsTodosCard />
-      </Flex>
-      <Flex my="4" justifyContent="space-between">
-        <WorkTodosCard />
-        <Box w={[0, 8]} />
-        <ArtTodosCard />
-      </Flex>
-      <Popup />
-    </Flex>
+    </EditModeProvider>
   );
 };
+
+InputsPage.routeName = "/main";
 
 export default InputsPage;
 

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { Input, Flex, Text, VStack } from "@chakra-ui/react";
 import Card from "../../components/Card/Card";

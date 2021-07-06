@@ -1,11 +1,4 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-} from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
 import { useEditMode } from "../../contexts/EditModeContext";
 import ArtTodosCard from "./ArtTodosCard";
 import AsleepCard from "./AsleepCard";
@@ -15,6 +8,9 @@ import HeaderCard from "./HeaderCard";
 import TodaysTodoCard from "./TodaysTodoCard";
 import TomorrowsTodoCard from "./TomorrowsTodosCard";
 import WorkTodosCard from "./WorkTodosCard";
+import ReadingCard from "./ReadingCard";
+import ResearchCard from "./ResearchCard";
+import AccountabilityCard from "./AccountabilityCard";
 
 const Popup = () => {
   const { editMode, sectionName, setEditMode, setSectionName } = useEditMode();
@@ -42,6 +38,12 @@ const Popup = () => {
         return <WorkTodosCard />;
       case "ART_TODOS":
         return <ArtTodosCard />;
+      case "READING":
+        return <ReadingCard />;
+      case "RESEARCH":
+        return <ResearchCard />;
+      case "ACCOUNTABILITY":
+        return <AccountabilityCard />;
       default:
         return null;
     }

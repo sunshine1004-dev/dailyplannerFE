@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { Flex, Input, Spacer, Text } from "@chakra-ui/react";
+import { Flex, Input, Text } from "@chakra-ui/react";
 import Card from "../../components/Card/Card";
 import { useEditMode } from "../../contexts/EditModeContext";
 

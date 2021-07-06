@@ -1,5 +1,4 @@
 import {
-  Box,
   VStack,
   Text,
   Flex,
@@ -52,7 +51,12 @@ function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
   ) : (
     <VStack width="100%" spacing={[1, 4]}>
       {todos.map((todo) => (
-        <Flex width="100%" justifyContent="space-between" alignItems="center">
+        <Flex
+          key={todo.id}
+          width="100%"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <CheckIcon
             mr="4"
             color={todo.completed ? `${COLOR_THEME}.500` : "gray.200"}
