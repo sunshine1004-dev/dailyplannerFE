@@ -1,32 +1,13 @@
-import { Box, Center, Flex, Spacer } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import HeaderCard from "./HeaderCard";
 import AwakeCard from "./AwakeCard";
 import GratefulForCard from "./GratefulForCard";
 import AsleepCard from "./AsleepCard";
 import TodaysTodoCard from "./TodaysTodoCard";
 import TomorrowsTodosCard from "./TomorrowsTodosCard";
-
-// const InputsPage = (props) => {
-//   return (
-//     <Flex p="4" flexDirection="column">
-//       <Flex mb="4">
-//         <HeaderCard />
-//       </Flex>
-//       <Flex my="4">
-//         <AwakeCard />
-//         <Box w={8} />
-//         <GratefulForCard />
-//         <Box w={8} />
-//         <AsleepCard />
-//       </Flex>
-//       <Flex my="4">
-//         <TodaysTodoCard />
-//         <Box w={8} />
-//         <TomorrowsTodosCard />
-//       </Flex>
-//     </Flex>
-//   );
-// };
+import WorkTodosCard from "./WorkTodosCard";
+import Popup from "./Popup";
+import ArtTodosCard from "./ArtTodosCard";
 
 const InputsPage = (props) => {
   return (
@@ -34,18 +15,24 @@ const InputsPage = (props) => {
       <Flex mb="4">
         <HeaderCard />
       </Flex>
-      <Flex my="4" flexDir={["column", "column", "column", "row"]}>
+      <Flex my="4" justifyContent="space-between">
         <AwakeCard />
-        <Box w={[0, 0, 0, 8]} h={[8, 8, 8, 0]} />
+        <Box w={[0, 8]} />
         <GratefulForCard />
-        <Box w={[0, 0, 0, 8]} h={[8, 8, 8, 0]} />
+        <Box w={[0, 8]} />
         <AsleepCard />
       </Flex>
-      <Flex my="4" flexDir={["column", "column", "column", "row"]}>
+      <Flex my="4" justifyContent="space-between">
         <TodaysTodoCard />
-        <Box w={[0, 0, 0, 8]} h={[8, 8, 8, 0]} />
+        <Box w={[0, 8]} />
         <TomorrowsTodosCard />
       </Flex>
+      <Flex my="4" justifyContent="space-between">
+        <WorkTodosCard />
+        <Box w={[0, 8]} />
+        <ArtTodosCard />
+      </Flex>
+      <Popup />
     </Flex>
   );
 };

@@ -13,15 +13,16 @@ import {
   ModalCloseButton,
   Button,
   Input,
-  Divider,
 } from "@chakra-ui/react";
 import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
+import { useEditMode } from "../../contexts/EditModeContext";
+import { COLOR_THEME } from "../../util/constants";
 
 function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
   const [modalValue, setModalValue] = useState({});
-  //hook to close the modal when user is done editing:
   const [isOpen, setIsOpen] = useState(false);
+  const { editMode } = useEditMode();
 
   function onClose() {
     setIsOpen(false);
@@ -29,7 +30,6 @@ function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
 
   function handleEditClick(todo) {
     setIsOpen(true);
-    // we've set the passed todo to modal value
     setModalValue(todo);
     console.log(todo);
   }
@@ -50,23 +50,25 @@ function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
       No todos for Today!!
     </Badge>
   ) : (
-    <VStack width="100%" spacing="4">
+    <VStack width="100%" spacing={[1, 4]}>
       {todos.map((todo) => (
         <Flex width="100%" justifyContent="space-between" alignItems="center">
           <CheckIcon
             mr="4"
-            color={todo.completed ? "teal.500" : "gray.200"}
+            color={todo.completed ? `${COLOR_THEME}.500` : "gray.200"}
             fontSize="lg"
             onClick={() => toggleCompleted(todo.id)}
             cursor="pointer"
+            display={editMode ? "inline-flex" : ["none", "inline-flex"]}
           />
           <Text
             flex="1"
             textAlign="left"
             textDecoration={todo.completed ? "line-through" : "none"}
-            textDecorationColor="teal.500"
+            textDecorationColor={`${COLOR_THEME}.500`}
             onClick={() => toggleCompleted(todo.id)}
             cursor="pointer"
+            fontSize={editMode ? "md" : ["xs", "md"]}
           >
             {todo.text}
           </Text>
@@ -75,12 +77,14 @@ function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
             fontSize="lg"
             cursor="pointer"
             mr="4"
+            display={editMode ? "inline-flex" : ["none", "inline-flex"]}
           />
           <DeleteIcon
             onClick={() => deleteTodo(todo)}
             fontSize="lg"
             color="red.500"
             cursor="pointer"
+            display={editMode ? "inline-flex" : ["none", "inline-flex"]}
           />
 
           <Modal isOpen={isOpen} onClose={onClose}>
@@ -100,10 +104,10 @@ function TodoList({ todos, deleteTodo, editTodo, toggleCompleted }) {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button colorScheme="teal" mr={3} onClick={onClose}>
+                  <Button colorScheme={COLOR_THEME} mr={3} onClick={onClose}>
                     Close
                   </Button>
-                  <Button type="submit" colorScheme="teal" mr={3}>
+                  <Button type="submit" colorScheme={COLOR_THEME} mr={3}>
                     Update
                   </Button>
                 </ModalFooter>

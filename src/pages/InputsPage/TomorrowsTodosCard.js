@@ -1,10 +1,11 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import { Input, Flex, Spacer, Text, VStack } from "@chakra-ui/react";
+import { Input, Flex, Text, VStack } from "@chakra-ui/react";
 import Card from "../../components/Card/Card";
 import TodoList from "../../components/TodoList/TodoList";
+import { useEditMode } from "../../contexts/EditModeContext";
 
 const TomorrowsTodoCard = (props) => {
+  const { editMode } = useEditMode();
   const [todos, setTodos] = useState([
     { id: 1, text: "Study for the diploma", completed: true },
     { id: 2, text: "Feed the dog", completed: true },
@@ -25,7 +26,7 @@ const TomorrowsTodoCard = (props) => {
   };
 
   return (
-    <Card title="tomorrow morn'n">
+    <Card title="tomorrow morn'n" sectionName="TOMORROWS_TODOS">
       <VStack spacing="4">
         <Flex width="100%" alignItems="center">
           <TodoList
@@ -35,10 +36,30 @@ const TomorrowsTodoCard = (props) => {
           />
         </Flex>
         <Flex width="100%" alignItems="center">
-          <Text textTransform="uppercase" mr="4">
+          <Text
+            textTransform="uppercase"
+            mr="4"
+            fontSize={editMode ? "md" : ["xs", "md"]}
+          >
             wake up
           </Text>
-          <Input flex="1" variant="flushed" placeholder="Flushed" type="time" />
+          <Input
+            flex="1"
+            variant="flushed"
+            placeholder="Flushed"
+            type="time"
+            display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+          />
+          {!editMode && (
+            <Text
+              textTransform="uppercase"
+              mr="4"
+              fontSize={["xs", "md"]}
+              display={["inline-flex", "none"]}
+            >
+              07:00
+            </Text>
+          )}
         </Flex>
       </VStack>
     </Card>

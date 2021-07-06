@@ -26,7 +26,7 @@ const TodaysTodoCard = (props) => {
   };
 
   return (
-    <Card title="today's todo">
+    <Card title="today's todo" sectionName="TODAYS_TODOS">
       <Flex alignItems="center">
         <TodoList
           todos={todos}

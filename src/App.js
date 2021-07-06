@@ -1,11 +1,14 @@
 import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import InputsPage from "./pages/InputsPage/InputsPage";
+import { EditModeProvider } from "./contexts/EditModeContext";
 
 function App() {
   return (
     <ChakraProvider>
-      <InputsPage />
+      <EditModeProvider>
+        <InputsPage />
+      </EditModeProvider>
     </ChakraProvider>
   );
 }
