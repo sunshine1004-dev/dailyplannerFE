@@ -39,9 +39,8 @@ const LoginPage = () => {
       .then((res) => {
         const { error, ...data } = res.data.login;
         if (error) {
-          alert(error);
+          console.log(error);
         } else {
-          console.log({ data });
           receiveUser(data);
           localStorage.setItem("token", data.token);
         }

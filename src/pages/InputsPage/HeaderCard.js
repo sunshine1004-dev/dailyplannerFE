@@ -1,9 +1,11 @@
-import { Flex, Input, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import Card from "../../components/Card/Card";
 import { useEditMode } from "../../contexts/EditModeContext";
+import { useSheet } from "../../contexts/SheetContext";
 
 const HeaderCard = (props) => {
   const { editMode } = useEditMode();
+  const { sheet } = useSheet();
 
   return (
     <Card
@@ -15,11 +17,16 @@ const HeaderCard = (props) => {
           Date
         </Text>
 
-        <Input
+        <Text textAlign="left" fontSize={["xs", "md"]}>
+          {sheet.day}
+        </Text>
+
+        {/* <Input
           variant="flushed"
           placeholder="Flushed"
           type="date"
           display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+          value={dateObj}
         />
         {!editMode && (
           <Text
@@ -27,9 +34,9 @@ const HeaderCard = (props) => {
             display={["inline-flex", "none"]}
             fontSize="xs"
           >
-            5/9/2021
+            {dateStr}
           </Text>
-        )}
+        )} */}
       </Flex>
     </Card>
   );

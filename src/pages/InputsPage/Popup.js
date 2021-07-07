@@ -12,12 +12,11 @@ import ReadingCard from "./ReadingCard";
 import ResearchCard from "./ResearchCard";
 import AccountabilityCard from "./AccountabilityCard";
 
-const Popup = () => {
-  const { editMode, sectionName, setEditMode, setSectionName } = useEditMode();
+const Popup = (props) => {
+  const { editMode, sectionName, handleDismiss } = useEditMode();
 
   const handleClose = () => {
-    setEditMode(false);
-    setSectionName(null);
+    handleDismiss();
   };
 
   const renderContent = () => {
@@ -50,7 +49,12 @@ const Popup = () => {
   };
 
   return (
-    <Modal isOpen={editMode} onClose={handleClose} size="xl" px="2">
+    <Modal
+      isOpen={editMode && sectionName}
+      onClose={handleClose}
+      size="4xl"
+      px="2"
+    >
       <ModalOverlay backgroundColor="white" />
       <ModalContent>{renderContent()}</ModalContent>
     </Modal>

@@ -1,14 +1,18 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEditMode } from "../../contexts/EditModeContext";
 import { COLOR_THEME } from "../../util/constants";
 
 const Card = (props) => {
-  const { editMode, setEditMode, setSectionName } = useEditMode();
+  const { editMode, setEditMode, handleDismiss } = useEditMode();
 
   const handleSectionClick = (e) => {
-    setEditMode(true);
-    setSectionName(props.sectionName);
+    if (!editMode) setEditMode(props.sectionName);
+  };
+
+  const handleSaveClick = () => {
+    props.onSave();
+    handleDismiss();
   };
 
   return (
@@ -21,6 +25,7 @@ const Card = (props) => {
       bg="white"
       onClick={handleSectionClick}
       position="relative"
+      _hover={!editMode ? { boxShadow: "md" } : {}}
     >
       <Box
         position="absolute"
@@ -30,6 +35,7 @@ const Card = (props) => {
         top="0"
         zIndex="2"
         display={editMode ? "none" : "block"}
+        cursor="pointer"
       />
       <Flex flexDir="column">
         <Center
@@ -59,6 +65,25 @@ const Card = (props) => {
             </Box>
           </Center>
         </Flex>
+        {editMode && (
+          <Flex
+            flex="1"
+            justifyContent="center"
+            alignItems="center"
+            px="4"
+            pb="4"
+          >
+            <Button
+              borderRadius={0}
+              variant="solid"
+              colorScheme={COLOR_THEME}
+              width="full"
+              onClick={handleSaveClick}
+            >
+              Save
+            </Button>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );
@@ -69,6 +94,7 @@ Card.propTypes = {
   flex: PropTypes.number,
   sectionName: PropTypes.string,
   flexGrow: PropTypes.number,
+  onSave: PropTypes.func,
 };
 
 export default Card;

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
 import HeaderCard from "./HeaderCard";
 import AwakeCard from "./AwakeCard";
@@ -13,10 +15,30 @@ import ResearchCard from "./ResearchCard";
 import AccoutabilityCard from "./AccountabilityCard";
 import { EditModeProvider } from "../../contexts/EditModeContext";
 import Header from "../../components/Header/Header";
+import { SheetProvider, useSheet } from "../../contexts/SheetContext";
 
 const InputsPage = (props) => {
   return (
     <EditModeProvider>
+      <SheetProvider>
+        <Main />
+      </SheetProvider>
+    </EditModeProvider>
+  );
+};
+
+const Main = () => {
+  const params = useParams();
+  const { sheet, handleGetSheet } = useSheet();
+
+  useEffect(() => {
+    handleGetSheet(params.id);
+  }, [handleGetSheet, params]);
+
+  if (!sheet) return <div>Loading...</div>;
+
+  return (
+    <>
       <Header />
       <Flex p="4" flexDirection="column">
         <Flex mb="4">
@@ -50,7 +72,7 @@ const InputsPage = (props) => {
         <Flex mb="4" />
         <Popup />
       </Flex>
-    </EditModeProvider>
+    </>
   );
 };
 

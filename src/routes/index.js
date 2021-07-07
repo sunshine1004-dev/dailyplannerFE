@@ -5,6 +5,7 @@ import UnauthorizedRoute from "./UnauthorizedRoute";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import InputsPage from "../pages/InputsPage/InputsPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import RedirectPage from "../pages/RedirectPage/RedirectPage";
 
 class Routes extends Component {
   render() {
@@ -22,10 +23,14 @@ class Routes extends Component {
             component={RegisterPage}
           />
           <PrivateRoute
-            exact
-            path={InputsPage.routeName}
+            path="/sheets/:id"
             component={InputsPage}
             userType="user"
+          />
+          <PrivateRoute
+            exact
+            path={RedirectPage.routeName}
+            component={RedirectPage}
           />
           <Redirect to={LoginPage.routeName} />
         </Switch>

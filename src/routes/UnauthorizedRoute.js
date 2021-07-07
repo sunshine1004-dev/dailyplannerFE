@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
-import InputsPage from "../pages/InputsPage/InputsPage";
+import RedirectPage from "../pages/RedirectPage/RedirectPage";
 
 const UnauthorizedRoute = (props) => {
   const { component: Component, ...rest } = props;
@@ -13,7 +13,7 @@ const UnauthorizedRoute = (props) => {
         if (!user) {
           return <Component {...props} />;
         } else {
-          return <Redirect to={InputsPage.routeName} />;
+          return <Redirect to={RedirectPage.routeName} />;
         }
       }}
     />

@@ -1,7 +1,7 @@
 import TimeCard from "../../components/TimeCard/TimeCard";
 
 const AsleepCard = (props) => {
-  return <TimeCard title="asleep" sectionName="ASLEEP" />;
+  return <TimeCard title="asleep" sectionName="ASLEEP" prop="asleep" />;
 };
 
 AsleepCard.propTypes = {};

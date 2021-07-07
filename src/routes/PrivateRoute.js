@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
+import LoginPage from "../pages/LoginPage/LoginPage";
 
 const PrivateRoute = (props) => {
   const { component: Component, userType, ...rest } = props;
@@ -14,7 +15,7 @@ const PrivateRoute = (props) => {
             return <Component {...props} />;
           else return <Redirect to="/" />;
         } else {
-          return <Redirect to="/" />;
+          return <Redirect to={LoginPage.routeName} />;
         }
       }}
     />
