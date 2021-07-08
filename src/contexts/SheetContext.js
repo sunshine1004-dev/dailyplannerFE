@@ -5,6 +5,7 @@ import {
   deleteTodoItemMutation,
   updateSheetMutation,
   updateTodoItemMutation,
+  updateTodoOptionsMutation,
 } from "../mutations";
 import { sheetQueryStr } from "../queries";
 import { get } from "../util/api";
@@ -14,7 +15,15 @@ const SheetContext = createContext();
 function sheetReducer(state, action) {
   switch (action.type) {
     case "RECEIVE_SHEET":
-      return { ...action.sheet };
+      return {
+        ...action.sheet,
+        todos: {
+          today: action.sheet.todos.today || { items: [] },
+          tomorrow: action.sheet.todos.tomorrow || { items: [] },
+          work: action.sheet.todos.work || { items: [] },
+          art: action.sheet.todos.art || { items: [] },
+        },
+      };
     case "UPDATE_SHEET":
       return { ...state, ...action.data };
     default:
@@ -28,6 +37,15 @@ export const SheetProvider = (props) => {
     accountability: {},
     todos: {
       today: {
+        items: [],
+      },
+      tomorrow: {
+        items: [],
+      },
+      work: {
+        items: [],
+      },
+      art: {
         items: [],
       },
     },
@@ -44,6 +62,7 @@ export function useSheet() {
   const [createTodoItem] = useMutation(createTodoItemMutation);
   const [updateTodoItem] = useMutation(updateTodoItemMutation);
   const [deleteTodoItem] = useMutation(deleteTodoItemMutation);
+  const [updateTodoOptions] = useMutation(updateTodoOptionsMutation);
   const { sheet, dispatch } = context;
 
   const handleGetSheet = useCallback(
@@ -130,6 +149,22 @@ export function useSheet() {
     }
   };
 
+  const handleUpdateTodoOptions = async ({ id, ...options }) => {
+    try {
+      const result = await updateTodoOptions({
+        variables: {
+          id,
+          ...options,
+        },
+      });
+      if (result.data.updateTodoOptions._id) {
+        handleGetSheet(sheet._id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     sheet,
     handleGetSheet,
@@ -137,5 +172,6 @@ export function useSheet() {
     handleCreateTodoItem,
     handleUpdateTodoItem,
     handleDeleteTodoItem,
+    handleUpdateTodoOptions,
   };
 }

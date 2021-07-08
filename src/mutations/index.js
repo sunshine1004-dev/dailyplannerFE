@@ -118,3 +118,20 @@ export const deleteTodoItemMutation = gql`
     }
   }
 `;
+
+export const updateTodoOptionsMutation = gql`
+  mutation ($id: ID!, $startTime: String, $endTime: String) {
+    updateTodoOptions(id: $id, startTime: $startTime, endTime: $endTime) {
+      _id
+      sheetId
+      items {
+        _id
+        text
+        completed
+      }
+      type
+      startTime
+      endTime
+    }
+  }
+`;

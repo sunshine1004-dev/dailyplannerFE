@@ -1,36 +1,107 @@
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Input, Flex, Text, VStack } from "@chakra-ui/react";
+import { Input, Flex, Text, VStack, Divider, Button } from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
 import Card from "../../components/Card/Card";
 import TodoList from "../../components/TodoList/TodoList";
 import { useEditMode } from "../../contexts/EditModeContext";
+import { useSheet } from "../../contexts/SheetContext";
+import { useTodoItemModal } from "../../contexts/TodoItemModalContext";
+import { COLOR_THEME } from "../../util/constants";
 
-const TodosCard = (props) => {
+const TodosCard = ({ type, ...props }) => {
   const { editMode } = useEditMode();
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const {
+    sheet,
+    handleCreateTodoItem,
+    handleUpdateTodoItem,
+    handleDeleteTodoItem,
+    handleUpdateTodoOptions,
+  } = useSheet();
+  const { handleOpen } = useTodoItemModal();
 
-  const handleItemEdit = (...args) => {
-    console.log({ args });
+  useEffect(() => {
+    if (sheet.todos[type]) {
+      setStartTime(sheet.todos[type].startTime || "");
+      setEndTime(sheet.todos[type].endTime || "");
+    }
+  }, [sheet.todos, type]);
+
+  if (!(sheet && sheet.todos && sheet.todos[type])) return null;
+
+  const { items } = sheet.todos[type];
+
+  const launchNewTodoModal = () => {
+    const id = sheet.todos[type] ? sheet.todos[type]._id : null;
+    handleOpen((text) => {
+      handleCreateTodoItem({
+        id,
+        text,
+        type,
+      });
+    });
   };
 
-  const toggleCompleted = (id) => {
-    props.setTodos((prevTodos) =>
-      prevTodos.map((todo) => ({
-        ...todo,
-        completed: todo.id === id ? !todo.completed : todo.completed,
-      }))
+  const launchEditTodoModal = (todoItem) => {
+    handleOpen(
+      (text) => {
+        handleUpdateTodoItem({
+          id: sheet.todos[type]._id,
+          todoItemId: todoItem._id,
+          text,
+          completed: todoItem.completed,
+        });
+      },
+      { mode: "EDIT", text: todoItem.text }
     );
   };
 
+  const handleToggleCompleted = (todoItem) => {
+    handleUpdateTodoItem({
+      id: sheet.todos[type]._id,
+      todoItemId: todoItem._id,
+      text: todoItem.text,
+      completed: !todoItem.completed,
+    });
+  };
+
+  const handleDeleteItem = (id) => {
+    handleDeleteTodoItem({
+      id: sheet.todos[type]._id,
+      todoItemId: id,
+    });
+  };
+
+  const handleUpdateOptions = (key, value) => {
+    handleUpdateTodoOptions({
+      id: sheet.todos[type]._id,
+      [key]: value,
+    });
+  };
+
   return (
-    <Card title={props.title} sectionName={props.sectionName}>
+    <Card
+      title={props.title}
+      sectionName={props.sectionName}
+      rightIcon={true}
+      rightIconClickHandler={launchNewTodoModal}
+      hideSaveBtn={true}
+    >
       <VStack spacing="4">
         <Flex width="100%" alignItems="center">
           <TodoList
-            todos={props.todos}
-            editTodo={handleItemEdit}
-            toggleCompleted={toggleCompleted}
+            todos={items}
+            handleItemEdit={launchEditTodoModal}
+            toggleCompleted={handleToggleCompleted}
+            handleDeleteItem={handleDeleteItem}
           />
         </Flex>
-        {props.startTime && (
+        {sheet.todos[type]._id && props.startTime && (
+          <Divider pt="4" orientation="horizontal" />
+        )}
+        {sheet.todos[type]._id && props.startTime && (
           <Flex width="100%" alignItems="center">
             <Text
               textTransform="uppercase"
@@ -45,6 +116,8 @@ const TodosCard = (props) => {
               placeholder="Flushed"
               type="time"
               display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
             />
             {!editMode && (
               <Text
@@ -53,12 +126,23 @@ const TodosCard = (props) => {
                 fontSize={["xs", "md"]}
                 display={["inline-flex", "none"]}
               >
-                07:00
+                {sheet.todos[type].startTime}
               </Text>
+            )}
+            {editMode && (
+              <Button
+                ml="4"
+                width="16"
+                display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+                backgroundColor={`${COLOR_THEME}.500`}
+                onClick={() => handleUpdateOptions("startTime", startTime)}
+              >
+                <CheckIcon color="white" />
+              </Button>
             )}
           </Flex>
         )}
-        {props.endTime && (
+        {sheet.todos[type]._id && props.endTime && (
           <Flex width="100%" alignItems="center">
             <Text
               textTransform="uppercase"
@@ -73,6 +157,8 @@ const TodosCard = (props) => {
               placeholder="Flushed"
               type="time"
               display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+              value={endTime}
+              onChange={(e) => setEndTime(e.target.value)}
             />
             {!editMode && (
               <Text
@@ -81,8 +167,19 @@ const TodosCard = (props) => {
                 fontSize={["xs", "md"]}
                 display={["inline-flex", "none"]}
               >
-                07:00
+                {sheet.todos[type].endTime}
               </Text>
+            )}
+            {editMode && (
+              <Button
+                ml="4"
+                width="16"
+                display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+                backgroundColor={`${COLOR_THEME}.500`}
+                onClick={() => handleUpdateOptions("endTime", endTime)}
+              >
+                <CheckIcon color="white" />
+              </Button>
             )}
           </Flex>
         )}
@@ -92,8 +189,7 @@ const TodosCard = (props) => {
 };
 
 TodosCard.propTypes = {
-  todos: PropTypes.array.isRequired,
-  setTodos: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   sectionName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   startTime: PropTypes.bool,
