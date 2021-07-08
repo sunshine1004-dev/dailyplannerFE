@@ -1,3 +1,4 @@
+import { AddIcon } from "@chakra-ui/icons";
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEditMode } from "../../contexts/EditModeContext";
@@ -43,6 +44,7 @@ const Card = (props) => {
           py={editMode ? 4 : [2, 4]}
           px="2"
           roundedTop="md"
+          position="relative"
         >
           <Text
             fontSize={["sm", "2xl"]}
@@ -53,6 +55,18 @@ const Card = (props) => {
           >
             {props.title}
           </Text>
+          {editMode && props.rightIcon && (
+            <Box position="absolute" height="100%" right="4" display="flex">
+              <Center>
+                <AddIcon
+                  onClick={props.rightIconClickHandler}
+                  color="white"
+                  fontSize="22"
+                  cursor="pointer"
+                />
+              </Center>
+            </Box>
+          )}
         </Center>
         <Flex flex="1" justifyContent="center" alignItems="center">
           <Center width="100%">
@@ -65,7 +79,7 @@ const Card = (props) => {
             </Box>
           </Center>
         </Flex>
-        {editMode && (
+        {editMode && !props.hideSaveBtn && (
           <Flex
             flex="1"
             justifyContent="center"

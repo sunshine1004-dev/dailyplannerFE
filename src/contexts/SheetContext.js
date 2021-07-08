@@ -1,6 +1,11 @@
 import { createContext, useCallback, useContext, useReducer } from "react";
 import { useMutation } from "react-apollo";
-import { updateSheetMutation } from "../mutations";
+import {
+  createTodoItemMutation,
+  deleteTodoItemMutation,
+  updateSheetMutation,
+  updateTodoItemMutation,
+} from "../mutations";
 import { sheetQueryStr } from "../queries";
 import { get } from "../util/api";
 
@@ -21,6 +26,11 @@ export const SheetProvider = (props) => {
   const [sheet, dispatch] = useReducer(sheetReducer, {
     reading: {},
     accountability: {},
+    todos: {
+      today: {
+        items: [],
+      },
+    },
   });
   const value = { sheet, dispatch };
 
@@ -31,11 +41,13 @@ export function useSheet() {
   const context = useContext(SheetContext);
   if (!context) throw new Error("Please use useSheet within SheetProvider");
   const [updateSheet] = useMutation(updateSheetMutation);
+  const [createTodoItem] = useMutation(createTodoItemMutation);
+  const [updateTodoItem] = useMutation(updateTodoItemMutation);
+  const [deleteTodoItem] = useMutation(deleteTodoItemMutation);
   const { sheet, dispatch } = context;
 
   const handleGetSheet = useCallback(
     async (id) => {
-      // run get sheet
       try {
         const data = await get(sheetQueryStr, { id });
         if (data && data.sheet && data.sheet._id) {
@@ -66,9 +78,64 @@ export function useSheet() {
     }
   };
 
+  const handleCreateTodoItem = async ({ id, text, type }) => {
+    try {
+      const result = await createTodoItem({
+        variables: {
+          id,
+          sheetId: sheet._id,
+          text,
+          type,
+        },
+      });
+      if (result.data.createTodoItem._id) {
+        handleGetSheet(sheet._id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleUpdateTodoItem = async ({ id, todoItemId, text, completed }) => {
+    try {
+      const result = await updateTodoItem({
+        variables: {
+          id,
+          todoItemId,
+          text,
+          completed,
+        },
+      });
+      if (result.data.updateTodoItem._id) {
+        handleGetSheet(sheet._id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleDeleteTodoItem = async ({ id, todoItemId }) => {
+    try {
+      const result = await deleteTodoItem({
+        variables: {
+          id,
+          todoItemId,
+        },
+      });
+      if (result.data.deleteTodoItem._id) {
+        handleGetSheet(sheet._id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     sheet,
     handleGetSheet,
     handleUpdateSheet,
+    handleCreateTodoItem,
+    handleUpdateTodoItem,
+    handleDeleteTodoItem,
   };
 }

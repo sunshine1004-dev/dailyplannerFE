@@ -62,3 +62,59 @@ export const updateSheetMutation = gql`
     }
   }
 `;
+
+export const createTodoItemMutation = gql`
+  mutation ($id: ID, $sheetId: ID!, $text: String, $type: String) {
+    createTodoItem(id: $id, sheetId: $sheetId, text: $text, type: $type) {
+      _id
+      sheetId
+      items {
+        _id
+        text
+        completed
+      }
+      type
+      startTime
+      endTime
+    }
+  }
+`;
+
+export const updateTodoItemMutation = gql`
+  mutation ($id: ID!, $todoItemId: ID!, $text: String!, $completed: Boolean!) {
+    updateTodoItem(
+      id: $id
+      todoItemId: $todoItemId
+      text: $text
+      completed: $completed
+    ) {
+      _id
+      sheetId
+      items {
+        _id
+        text
+        completed
+      }
+      type
+      startTime
+      endTime
+    }
+  }
+`;
+
+export const deleteTodoItemMutation = gql`
+  mutation ($id: ID!, $todoItemId: ID!) {
+    deleteTodoItem(id: $id, todoItemId: $todoItemId) {
+      _id
+      sheetId
+      items {
+        _id
+        text
+        completed
+      }
+      type
+      startTime
+      endTime
+    }
+  }
+`;

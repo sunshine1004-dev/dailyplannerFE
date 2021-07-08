@@ -15,13 +15,17 @@ import ResearchCard from "./ResearchCard";
 import AccoutabilityCard from "./AccountabilityCard";
 import { EditModeProvider } from "../../contexts/EditModeContext";
 import Header from "../../components/Header/Header";
+import TodoItemModal from "../../components/TodoItemModal/TodoItemModal";
 import { SheetProvider, useSheet } from "../../contexts/SheetContext";
+import { TodoItemModalProvider } from "../../contexts/TodoItemModalContext";
 
 const InputsPage = (props) => {
   return (
     <EditModeProvider>
       <SheetProvider>
-        <Main />
+        <TodoItemModalProvider>
+          <Main />
+        </TodoItemModalProvider>
       </SheetProvider>
     </EditModeProvider>
   );
@@ -71,6 +75,7 @@ const Main = () => {
         </Flex>
         <Flex mb="4" />
         <Popup />
+        <TodoItemModal />
       </Flex>
     </>
   );

@@ -62,6 +62,48 @@ export const sheetQueryStr = `
       }
       awake
       asleep
+      todos {
+        today {
+          _id
+          items {
+            _id
+            text
+            completed
+          }
+          startTime
+          endTime
+        }
+        tomorrow {
+          _id
+          items {
+            _id
+            text
+            completed
+          }
+          startTime
+          endTime
+        }
+        work {
+          _id
+          items {
+            _id
+            text
+            completed
+          }
+          startTime
+          endTime
+        }
+        art {
+          _id
+          items {
+            _id
+            text
+            completed
+          }
+          startTime
+          endTime
+        }
+      }
     }
   }
 `;
