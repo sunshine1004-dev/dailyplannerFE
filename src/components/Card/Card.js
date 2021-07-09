@@ -46,15 +46,32 @@ const Card = (props) => {
           roundedTop="md"
           position="relative"
         >
-          <Text
-            fontSize={["sm", "2xl"]}
-            fontWeight="bold"
-            textTransform="uppercase"
-            textAlign="center"
-            color="white"
+          <Flex
+            flexDir={["column", "row"]}
+            justifyContent="center"
+            alignItems="center"
           >
-            {props.title}
-          </Text>
+            <Text
+              fontSize={["sm", "2xl"]}
+              fontWeight="bold"
+              textTransform="uppercase"
+              textAlign="center"
+              color="white"
+            >
+              {props.title}
+            </Text>
+            {props.subtitle && (
+              <Text
+                ml="4"
+                fontSize="sm"
+                fontWeight="bold"
+                textAlign="center"
+                color="white"
+              >
+                {props.subtitle}
+              </Text>
+            )}
+          </Flex>
           {editMode && props.rightIcon && (
             <Box position="absolute" height="100%" right="4" display="flex">
               <Center>
@@ -105,6 +122,7 @@ const Card = (props) => {
 
 Card.propTypes = {
   title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
   flex: PropTypes.number,
   sectionName: PropTypes.string,
   flexGrow: PropTypes.number,

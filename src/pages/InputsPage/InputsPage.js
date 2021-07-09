@@ -18,6 +18,8 @@ import Header from "../../components/Header/Header";
 import TodoItemModal from "../../components/TodoItemModal/TodoItemModal";
 import { SheetProvider, useSheet } from "../../contexts/SheetContext";
 import { TodoItemModalProvider } from "../../contexts/TodoItemModalContext";
+import AffirmationCard from "./AffirmationCard";
+import CallSosCard from "./CallSos";
 
 const InputsPage = (props) => {
   return (
@@ -54,6 +56,11 @@ const Main = () => {
           <GratefulForCard />
           <Box w={[0, 8]} />
           <AsleepCard />
+        </Flex>
+        <Flex my="4" justifyContent="space-between">
+          <AffirmationCard />
+          <Box w={[0, 8]} />
+          <CallSosCard />
         </Flex>
         <Flex my="4" justifyContent="space-between">
           <TodaysTodoCard />

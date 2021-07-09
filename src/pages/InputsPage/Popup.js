@@ -11,6 +11,8 @@ import WorkTodosCard from "./WorkTodosCard";
 import ReadingCard from "./ReadingCard";
 import ResearchCard from "./ResearchCard";
 import AccountabilityCard from "./AccountabilityCard";
+import AffirmationCard from "./AffirmationCard";
+import CallSosCard from "./CallSos";
 
 const Popup = (props) => {
   const { editMode, sectionName, handleDismiss } = useEditMode();
@@ -43,6 +45,10 @@ const Popup = (props) => {
         return <ResearchCard />;
       case "ACCOUNTABILITY":
         return <AccountabilityCard />;
+      case "AFFIRMATION":
+        return <AffirmationCard />;
+      case "CALL_SOS":
+        return <CallSosCard />;
       default:
         return null;
     }

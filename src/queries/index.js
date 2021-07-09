@@ -50,6 +50,8 @@ export const sheetQueryStr = `
       userId
       day
       gratefulFor
+      affirmation
+      callSos
       research
       reading {
         title

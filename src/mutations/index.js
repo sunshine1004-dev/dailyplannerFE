@@ -43,6 +43,8 @@ export const updateSheetMutation = gql`
   mutation (
     $id: ID!
     $gratefulFor: String
+    $affirmation: String
+    $callSos: String
     $research: String
     $reading: ReadingInputType
     $accountability: AccountabilityInputType
@@ -52,6 +54,8 @@ export const updateSheetMutation = gql`
     updateSheet(
       id: $id
       gratefulFor: $gratefulFor
+      affirmation: $affirmation
+      callSos: $callSos
       research: $research
       reading: $reading
       accountability: $accountability
