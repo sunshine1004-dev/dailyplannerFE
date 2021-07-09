@@ -81,6 +81,11 @@ const TodosCard = ({ type, ...props }) => {
     });
   };
 
+  const hasItems = sheet.todos[type]._id && items.length;
+  const startTimeVisibility = hasItems && props.startTime;
+  const endTimeVisibility =
+    startTimeVisibility && sheet.todos[type].startTime && props.endTime;
+
   return (
     <Card
       title={props.title}
@@ -98,10 +103,8 @@ const TodosCard = ({ type, ...props }) => {
             handleDeleteItem={handleDeleteItem}
           />
         </Flex>
-        {sheet.todos[type]._id && props.startTime && (
-          <Divider pt="4" orientation="horizontal" />
-        )}
-        {sheet.todos[type]._id && props.startTime && (
+        {startTimeVisibility && <Divider pt="4" orientation="horizontal" />}
+        {startTimeVisibility && (
           <Flex width="100%" alignItems="center">
             <Text
               textTransform="uppercase"
@@ -136,13 +139,14 @@ const TodosCard = ({ type, ...props }) => {
                 display={editMode ? "inline-flex" : ["none", "inline-flex"]}
                 backgroundColor={`${COLOR_THEME}.500`}
                 onClick={() => handleUpdateOptions("startTime", startTime)}
+                disabled={!startTime}
               >
                 <CheckIcon color="white" />
               </Button>
             )}
           </Flex>
         )}
-        {sheet.todos[type]._id && props.endTime && (
+        {endTimeVisibility && (
           <Flex width="100%" alignItems="center">
             <Text
               textTransform="uppercase"
@@ -177,6 +181,7 @@ const TodosCard = ({ type, ...props }) => {
                 display={editMode ? "inline-flex" : ["none", "inline-flex"]}
                 backgroundColor={`${COLOR_THEME}.500`}
                 onClick={() => handleUpdateOptions("endTime", endTime)}
+                disabled={!endTime}
               >
                 <CheckIcon color="white" />
               </Button>
