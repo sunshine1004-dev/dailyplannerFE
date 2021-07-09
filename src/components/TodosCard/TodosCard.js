@@ -94,7 +94,7 @@ const TodosCard = ({ type, ...props }) => {
       rightIconClickHandler={launchNewTodoModal}
       hideSaveBtn={true}
     >
-      <VStack spacing="4">
+      <VStack spacing={editMode ? "4" : ["1", "4"]}>
         <Flex width="100%" alignItems="center">
           <TodoList
             todos={items}
@@ -103,7 +103,13 @@ const TodosCard = ({ type, ...props }) => {
             handleDeleteItem={handleDeleteItem}
           />
         </Flex>
-        {startTimeVisibility && <Divider pt="4" orientation="horizontal" />}
+        {startTimeVisibility && (
+          <Divider
+            pt="4"
+            orientation="horizontal"
+            display={editMode ? "inline-flex" : ["none", "inline-flex"]}
+          />
+        )}
         {startTimeVisibility && (
           <Flex width="100%" alignItems="center">
             <Text

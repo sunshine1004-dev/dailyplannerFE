@@ -46,38 +46,44 @@ const Main = () => {
   return (
     <>
       <Header />
-      <Flex p="4" flexDirection="column">
-        <Flex mb="4">
+      <Flex
+        p="4"
+        flexDirection="column"
+        experimental_spaceY={["4", "6", "8"]}
+        maxW="1360"
+        marginX="auto"
+      >
+        <Flex>
           <HeaderCard />
         </Flex>
-        <Flex my="4" justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <AwakeCard />
           <Box w={[0, 8]} />
           <GratefulForCard />
           <Box w={[0, 8]} />
           <AsleepCard />
         </Flex>
-        <Flex my="4" justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <AffirmationCard />
           <Box w={[0, 8]} />
           <CallSosCard />
         </Flex>
-        <Flex my="4" justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <TodaysTodoCard />
           <Box w={[0, 8]} />
           <TomorrowsTodosCard />
         </Flex>
-        <Flex my="4" justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <WorkTodosCard />
           <Box w={[0, 8]} />
           <ArtTodosCard />
         </Flex>
-        <Flex my="4" justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <ReadingCard />
           <Box w={[0, 8]} />
           <ResearchCard />
         </Flex>
-        <Flex mb="4">
+        <Flex>
           <AccoutabilityCard />
         </Flex>
         <Flex mb="4" />

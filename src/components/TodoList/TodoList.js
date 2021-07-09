@@ -1,4 +1,4 @@
-import { VStack, Text, Flex, Box } from "@chakra-ui/react";
+import { VStack, Text, Flex } from "@chakra-ui/react";
 import { CheckIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useEditMode } from "../../contexts/EditModeContext";
 import { COLOR_THEME } from "../../util/constants";
@@ -12,7 +12,7 @@ function TodoList({
   const { editMode } = useEditMode();
 
   return !todos.length ? (
-    <Box>No todos yet...</Box>
+    <Text fontSize={editMode ? "md" : ["xs", "md"]}>No todos yet...</Text>
   ) : (
     <VStack width="100%" spacing={[1, 4]}>
       {todos.map((todo) => (
