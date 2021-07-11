@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import InputsPage from "../pages/InputsPage/InputsPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import RedirectPage from "../pages/RedirectPage/RedirectPage";
+import ExpensesPage from "../pages/ExpensesPage/ExpensesPage";
 
 class Routes extends Component {
   render() {
@@ -25,6 +26,11 @@ class Routes extends Component {
           <PrivateRoute
             path="/sheets/:id"
             component={InputsPage}
+            userType="user"
+          />
+          <PrivateRoute
+            path={ExpensesPage.routeName}
+            component={ExpensesPage}
             userType="user"
           />
           <PrivateRoute

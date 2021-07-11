@@ -109,3 +109,14 @@ export const sheetQueryStr = `
     }
   }
 `;
+
+export const expensesQuery = gql`
+  query {
+    expenses {
+      _id
+      type
+      description
+      amount
+    }
+  }
+`;

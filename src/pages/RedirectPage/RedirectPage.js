@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "react-apollo";
 import { checkOrCreateSheetMutation } from "../../mutations";
+import PrivatePage from "../../components/Layout/PrivatePage";
 
 const RedirectPage = () => {
   const history = useHistory();
@@ -18,7 +19,11 @@ const RedirectPage = () => {
       .catch(console.log);
   }, [checkOrCreateSheet, history]);
 
-  return <div>Redirect...</div>;
+  return (
+    <PrivatePage>
+      <div>Redirect...</div>
+    </PrivatePage>
+  );
 };
 
 RedirectPage.routeName = "/";

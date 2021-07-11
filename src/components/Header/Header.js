@@ -1,18 +1,21 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Box,
-  Stack,
   Heading,
   Flex,
-  Text,
   Button,
   useDisclosure,
+  Divider,
+  Center,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { COLOR_THEME } from "../../util/constants";
 import { useUser } from "../../contexts/UserContext";
+import ExpensesPage from "../../pages/ExpensesPage/ExpensesPage";
 
 const Header = (props) => {
+  const { pathname } = useLocation();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleLogout } = useUser();
 
@@ -30,8 +33,40 @@ const Header = (props) => {
       {...props}
     >
       <Flex align="center" mr={5}>
+        <Link to={"/"}>
+          <Heading
+            as="h1"
+            size={["lg"]}
+            letterSpacing={"tighter"}
+            textDecoration={
+              pathname === "/" || pathname.includes("/sheets/")
+                ? "underline"
+                : "none"
+            }
+          >
+            Planner
+          </Heading>
+        </Link>
+        <Center height="8" px={["2", "4"]}>
+          <Divider orientation="vertical" size="1" color="white" />
+        </Center>
+        <Link to={ExpensesPage.routeName}>
+          <Heading
+            as="h1"
+            size={["lg"]}
+            letterSpacing={"tighter"}
+            textDecoration={
+              pathname === ExpensesPage.routeName ? "underline" : "none"
+            }
+          >
+            Expenses
+          </Heading>
+        </Link>
+        <Center height="8" px={["2", "4"]}>
+          <Divider orientation="vertical" size="1" color="white" />
+        </Center>
         <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-          Planner
+          Journal
         </Heading>
       </Flex>
 
@@ -39,7 +74,7 @@ const Header = (props) => {
         <HamburgerIcon />
       </Box>
 
-      <Stack
+      {/* <Stack
         direction={{ base: "column", md: "row" }}
         display={{ base: isOpen ? "block" : "none", md: "flex" }}
         width={{ base: "full", md: "auto" }}
@@ -48,7 +83,7 @@ const Header = (props) => {
         mt={{ base: 4, md: 0 }}
       >
         <Text>Profile</Text>
-      </Stack>
+      </Stack> */}
 
       <Box
         display={{ base: isOpen ? "block" : "none", md: "block" }}

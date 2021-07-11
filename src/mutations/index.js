@@ -139,3 +139,33 @@ export const updateTodoOptionsMutation = gql`
     }
   }
 `;
+
+export const createExpenseMutation = gql`
+  mutation ($type: String!, $description: String!, $amount: Float!) {
+    createExpense(type: $type, description: $description, amount: $amount) {
+      _id
+      type
+      amount
+      description
+    }
+  }
+`;
+
+export const updateExpenseMutation = gql`
+  mutation ($id: ID!, $description: String, $amount: Float) {
+    updateExpense(id: $id, description: $description, amount: $amount) {
+      _id
+      type
+      amount
+      description
+    }
+  }
+`;
+
+export const deleteExpenseMutation = gql`
+  mutation ($id: ID!) {
+    deleteExpense(id: $id) {
+      result
+    }
+  }
+`;
