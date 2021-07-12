@@ -9,46 +9,113 @@ import {
   ModalCloseButton,
   Button,
   Input,
+  Flex,
+  Center,
 } from "@chakra-ui/react";
+import { CheckIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useTodoItemModal } from "../../contexts/TodoItemModalContext";
 import { COLOR_THEME } from "../../util/constants";
 
 const TodoItemModal = (props) => {
-  const {
-    isOpen,
-    mode,
-    text: todoText,
-    handleDismiss,
-    handleSubmit,
-  } = useTodoItemModal();
-  const [text, setText] = useState("");
+  const { isOpen, mode, todoItem, handleDismiss, handleSubmit } =
+    useTodoItemModal();
+  const [title, setTitle] = useState("");
+  const [actions, setActions] = useState([]);
 
   useEffect(() => {
-    setText(todoText);
-  }, [todoText]);
+    if (todoItem && isOpen) {
+      setTitle(todoItem.title);
+      setActions(todoItem.actions);
+    }
+  }, [isOpen, todoItem]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSubmit(text);
-    setText("");
+    handleSubmit({ title, actions });
+    setTitle("");
+    setActions([]);
   };
 
-  const title = mode === "EDIT" ? "Edit Todo" : "Add New Todo";
+  const modalTitle = mode === "EDIT" ? "Edit Todo" : "Add New Todo";
 
   return (
     <Modal isOpen={isOpen} onClose={handleDismiss} size="4xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader>{modalTitle}</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={onSubmit}>
           <ModalBody>
             <Input
               variant="flushed"
               type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
+            <Center>
+              <Button
+                my="4"
+                backgroundColor={`${COLOR_THEME}.500`}
+                color="white"
+                onClick={() =>
+                  setActions([
+                    ...actions,
+                    { _id: String(Date.now()), text: "", completed: false },
+                  ])
+                }
+              >
+                Add Action
+              </Button>
+            </Center>
+            {actions.map((action) => (
+              <Flex key={action._id} alignItems="center" my="4">
+                <Input
+                  variant="flushed"
+                  type="text"
+                  placeholder="Action"
+                  value={action.text}
+                  onChange={(e) =>
+                    setActions(
+                      actions.map((a) => {
+                        if (a._id !== action._id) return a;
+                        return {
+                          ...a,
+                          text: e.target.value,
+                        };
+                      })
+                    )
+                  }
+                  textDecoration={action.completed ? "line-through" : "none"}
+                />
+                <CheckIcon
+                  ml="4"
+                  color={action.completed ? `${COLOR_THEME}.500` : "gray.200"}
+                  fontSize="lg"
+                  onClick={() =>
+                    setActions(
+                      actions.map((a) => {
+                        if (a._id !== action._id) return a;
+                        return {
+                          ...a,
+                          completed: !a.completed,
+                        };
+                      })
+                    )
+                  }
+                  cursor="pointer"
+                />
+                <DeleteIcon
+                  ml="4"
+                  color="red"
+                  fontSize="lg"
+                  onClick={() =>
+                    setActions(actions.filter((a) => a._id !== action._id))
+                  }
+                  cursor="pointer"
+                />
+              </Flex>
+            ))}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme={COLOR_THEME} mr={3} onClick={handleDismiss}>
@@ -58,7 +125,7 @@ const TodoItemModal = (props) => {
               type="submit"
               colorScheme={COLOR_THEME}
               mr={3}
-              disabled={!text}
+              disabled={!title}
             >
               Submit
             </Button>

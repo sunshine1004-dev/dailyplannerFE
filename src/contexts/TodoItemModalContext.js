@@ -7,8 +7,8 @@ function todoItemModalReducer(state, action) {
     case "OPEN_TODO_ITEM_MODAL":
       return {
         isOpen: true,
-        text: action.text,
         mode: action.mode,
+        todoItem: action.todoItem || { title: "", actions: [] },
         callback: action.callback,
       };
     case "DISMISS_TODO_ITEM_MODAL":
@@ -37,20 +37,21 @@ export function useTodoItemModal() {
     dispatch({ type: "DISMISS_TODO_ITEM_MODAL" });
   }, [dispatch]);
   const handleOpen = useCallback(
-    (callback, options = { mode: "CREATE", text: "" }) => {
-      const { mode, text } = options;
-      dispatch({ type: "OPEN_TODO_ITEM_MODAL", mode, text, callback });
+    (callback, options = { mode: "CREATE" }) => {
+      const { mode, todoItem } = options;
+      dispatch({ type: "OPEN_TODO_ITEM_MODAL", mode, todoItem, callback });
     },
     [dispatch]
   );
-  const handleSubmit = (text) => {
-    todoItemModal.callback(text);
+  const handleSubmit = (todoItem) => {
+    todoItemModal.callback(todoItem);
     dispatch({ type: "DISMISS_TODO_ITEM_MODAL" });
   };
   return {
     isOpen: todoItemModal.isOpen,
     text: todoItemModal.text,
     mode: todoItemModal.mode,
+    todoItem: todoItemModal.todoItem,
     handleDismiss,
     handleOpen,
     handleSubmit,

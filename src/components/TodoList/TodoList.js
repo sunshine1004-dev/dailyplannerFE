@@ -26,7 +26,11 @@ function TodoList({
             mr="4"
             color={todo.completed ? `${COLOR_THEME}.500` : "gray.200"}
             fontSize="lg"
-            onClick={() => toggleCompleted(todo)}
+            onClick={() =>
+              !todo.actions.length
+                ? toggleCompleted(todo)
+                : handleItemEdit(todo)
+            }
             cursor="pointer"
             display={editMode ? "inline-flex" : ["none", "inline-flex"]}
           />
@@ -35,11 +39,11 @@ function TodoList({
             textAlign="left"
             textDecoration={todo.completed ? "line-through" : "none"}
             textDecorationColor={`${COLOR_THEME}.500`}
-            onClick={() => toggleCompleted(todo)}
+            onClick={() => handleItemEdit(todo)}
             cursor="pointer"
             fontSize={editMode ? "md" : ["xs", "md"]}
           >
-            {todo.text}
+            {todo.title}
           </Text>
           <EditIcon
             onClick={() => handleItemEdit(todo)}

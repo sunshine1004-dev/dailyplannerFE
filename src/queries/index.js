@@ -69,8 +69,13 @@ export const sheetQueryStr = `
           _id
           items {
             _id
-            text
+            title
             completed
+            actions {
+              _id
+              text
+              completed
+            }
           }
           startTime
           endTime
@@ -79,8 +84,13 @@ export const sheetQueryStr = `
           _id
           items {
             _id
-            text
+            title
             completed
+            actions {
+              _id
+              text
+              completed
+            }
           }
           startTime
           endTime
@@ -89,8 +99,13 @@ export const sheetQueryStr = `
           _id
           items {
             _id
-            text
+            title
             completed
+            actions {
+              _id
+              text
+              completed
+            }
           }
           startTime
           endTime
@@ -99,8 +114,13 @@ export const sheetQueryStr = `
           _id
           items {
             _id
-            text
+            title
             completed
+            actions {
+              _id
+              text
+              completed
+            }
           }
           startTime
           endTime

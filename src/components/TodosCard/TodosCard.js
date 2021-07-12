@@ -19,6 +19,7 @@ const TodosCard = ({ type, ...props }) => {
     handleUpdateTodoItem,
     handleDeleteTodoItem,
     handleUpdateTodoOptions,
+    handleToggleTodoItemCompleted,
   } = useSheet();
   const { handleOpen } = useTodoItemModal();
 
@@ -35,43 +36,30 @@ const TodosCard = ({ type, ...props }) => {
 
   const launchNewTodoModal = () => {
     const id = sheet.todos[type] ? sheet.todos[type]._id : null;
-    handleOpen((text) => {
+    handleOpen((todoItem) => {
       handleCreateTodoItem({
         id,
-        text,
         type,
+        ...todoItem,
       });
     });
   };
 
-  const launchEditTodoModal = (todoItem) => {
+  const launchEditTodoModal = (selectedTodoItem) => {
     handleOpen(
-      (text) => {
-        handleUpdateTodoItem({
-          id: sheet.todos[type]._id,
-          todoItemId: todoItem._id,
-          text,
-          completed: todoItem.completed,
-        });
+      (todoItem) => {
+        handleUpdateTodoItem({ ...todoItem, id: selectedTodoItem._id });
       },
-      { mode: "EDIT", text: todoItem.text }
+      { mode: "EDIT", todoItem: selectedTodoItem }
     );
   };
 
   const handleToggleCompleted = (todoItem) => {
-    handleUpdateTodoItem({
-      id: sheet.todos[type]._id,
-      todoItemId: todoItem._id,
-      text: todoItem.text,
-      completed: !todoItem.completed,
-    });
+    handleToggleTodoItemCompleted(todoItem._id);
   };
 
   const handleDeleteItem = (id) => {
-    handleDeleteTodoItem({
-      id: sheet.todos[type]._id,
-      todoItemId: id,
-    });
+    handleDeleteTodoItem(id);
   };
 
   const handleUpdateOptions = (key, value) => {

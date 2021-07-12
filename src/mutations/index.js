@@ -68,13 +68,25 @@ export const updateSheetMutation = gql`
 `;
 
 export const createTodoItemMutation = gql`
-  mutation ($id: ID, $sheetId: ID!, $text: String, $type: String) {
-    createTodoItem(id: $id, sheetId: $sheetId, text: $text, type: $type) {
+  mutation (
+    $id: ID
+    $sheetId: ID!
+    $type: String
+    $title: String
+    $actions: [TodoActionInputType]!
+  ) {
+    createTodoItem(
+      id: $id
+      sheetId: $sheetId
+      type: $type
+      title: $title
+      actions: $actions
+    ) {
       _id
       sheetId
       items {
         _id
-        text
+        title
         completed
       }
       type
@@ -85,40 +97,27 @@ export const createTodoItemMutation = gql`
 `;
 
 export const updateTodoItemMutation = gql`
-  mutation ($id: ID!, $todoItemId: ID!, $text: String!, $completed: Boolean!) {
-    updateTodoItem(
-      id: $id
-      todoItemId: $todoItemId
-      text: $text
-      completed: $completed
-    ) {
+  mutation ($id: ID!, $title: String!, $actions: [TodoActionInputType]!) {
+    updateTodoItem(id: $id, title: $title, actions: $actions) {
       _id
-      sheetId
-      items {
-        _id
-        text
-        completed
-      }
-      type
-      startTime
-      endTime
+      title
+      completed
+    }
+  }
+`;
+
+export const toggleTodoItemCompletedMutation = gql`
+  mutation ($id: ID!) {
+    toggleTodoItemCompleted(id: $id) {
+      result
     }
   }
 `;
 
 export const deleteTodoItemMutation = gql`
-  mutation ($id: ID!, $todoItemId: ID!) {
-    deleteTodoItem(id: $id, todoItemId: $todoItemId) {
-      _id
-      sheetId
-      items {
-        _id
-        text
-        completed
-      }
-      type
-      startTime
-      endTime
+  mutation ($id: ID!) {
+    deleteTodoItem(id: $id) {
+      result
     }
   }
 `;
@@ -127,15 +126,6 @@ export const updateTodoOptionsMutation = gql`
   mutation ($id: ID!, $startTime: String, $endTime: String) {
     updateTodoOptions(id: $id, startTime: $startTime, endTime: $endTime) {
       _id
-      sheetId
-      items {
-        _id
-        text
-        completed
-      }
-      type
-      startTime
-      endTime
     }
   }
 `;

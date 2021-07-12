@@ -3,6 +3,7 @@ import { useMutation } from "react-apollo";
 import {
   createTodoItemMutation,
   deleteTodoItemMutation,
+  toggleTodoItemCompletedMutation,
   updateSheetMutation,
   updateTodoItemMutation,
   updateTodoOptionsMutation,
@@ -63,6 +64,9 @@ export function useSheet() {
   const [updateTodoItem] = useMutation(updateTodoItemMutation);
   const [deleteTodoItem] = useMutation(deleteTodoItemMutation);
   const [updateTodoOptions] = useMutation(updateTodoOptionsMutation);
+  const [toggleTodoItemCompleted] = useMutation(
+    toggleTodoItemCompletedMutation
+  );
   const { sheet, dispatch } = context;
 
   const handleGetSheet = useCallback(
@@ -97,14 +101,14 @@ export function useSheet() {
     }
   };
 
-  const handleCreateTodoItem = async ({ id, text, type }) => {
+  const handleCreateTodoItem = async ({ id, type, ...todoItem }) => {
     try {
       const result = await createTodoItem({
         variables: {
           id,
           sheetId: sheet._id,
-          text,
           type,
+          ...todoItem,
         },
       });
       if (result.data.createTodoItem._id) {
@@ -115,14 +119,11 @@ export function useSheet() {
     }
   };
 
-  const handleUpdateTodoItem = async ({ id, todoItemId, text, completed }) => {
+  const handleUpdateTodoItem = async (todoItem) => {
     try {
       const result = await updateTodoItem({
         variables: {
-          id,
-          todoItemId,
-          text,
-          completed,
+          ...todoItem,
         },
       });
       if (result.data.updateTodoItem._id) {
@@ -133,15 +134,14 @@ export function useSheet() {
     }
   };
 
-  const handleDeleteTodoItem = async ({ id, todoItemId }) => {
+  const handleDeleteTodoItem = async (id) => {
     try {
       const result = await deleteTodoItem({
         variables: {
           id,
-          todoItemId,
         },
       });
-      if (result.data.deleteTodoItem._id) {
+      if (result.data.deleteTodoItem.result) {
         handleGetSheet(sheet._id);
       }
     } catch (e) {
@@ -165,6 +165,21 @@ export function useSheet() {
     }
   };
 
+  const handleToggleTodoItemCompleted = async (id) => {
+    try {
+      const result = await toggleTodoItemCompleted({
+        variables: {
+          id,
+        },
+      });
+      if (result.data.toggleTodoItemCompleted.result) {
+        handleGetSheet(sheet._id);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     sheet,
     handleGetSheet,
@@ -173,5 +188,6 @@ export function useSheet() {
     handleUpdateTodoItem,
     handleDeleteTodoItem,
     handleUpdateTodoOptions,
+    handleToggleTodoItemCompleted,
   };
 }
