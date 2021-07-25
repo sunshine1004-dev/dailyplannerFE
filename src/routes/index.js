@@ -4,6 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import UnauthorizedRoute from "./UnauthorizedRoute";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import InputsPage from "../pages/InputsPage/InputsPage";
+import JournalPage from "../pages/JournalPage/JournalPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import RedirectPage from "../pages/RedirectPage/RedirectPage";
 import ExpensesPage from "../pages/ExpensesPage/ExpensesPage";
@@ -26,6 +27,11 @@ class Routes extends Component {
           <PrivateRoute
             path="/sheets/:id"
             component={InputsPage}
+            userType="user"
+          />
+          <PrivateRoute
+            path={JournalPage.routeName}
+            component={JournalPage}
             userType="user"
           />
           <PrivateRoute

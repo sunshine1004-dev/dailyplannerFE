@@ -13,6 +13,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { COLOR_THEME } from "../../util/constants";
 import { useUser } from "../../contexts/UserContext";
 import ExpensesPage from "../../pages/ExpensesPage/ExpensesPage";
+import JournalPage from "../../pages/JournalPage/JournalPage";
 
 const Header = (props) => {
   const { pathname } = useLocation();
@@ -65,9 +66,13 @@ const Header = (props) => {
         <Center height="8" px={["2", "4"]}>
           <Divider orientation="vertical" size="1" color="white" />
         </Center>
-        <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-          Journal
-        </Heading>
+        <Link to={JournalPage.routeName}>
+          <Heading as="h1" size="lg" letterSpacing={"tighter"} textDecoration={
+              pathname === JournalPage.routeName ? "underline" : "none"
+            }>
+            Journal
+          </Heading>
+        </Link>
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>

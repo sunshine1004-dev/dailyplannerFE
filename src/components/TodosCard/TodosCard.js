@@ -72,9 +72,10 @@ const TodosCard = ({ type, ...props }) => {
   const hasItems = sheet.todos[type]._id && items.length;
   const startTimeVisibility = hasItems && props.startTime;
   const endTimeVisibility =
-    startTimeVisibility && sheet.todos[type].startTime && props.endTime;
-
+  startTimeVisibility && sheet.todos[type].startTime && props.endTime;
+  
   return (
+
     <Card
       title={props.title}
       sectionName={props.sectionName}
